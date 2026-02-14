@@ -132,3 +132,8 @@ a:focus, button:focus, iframe:focus{ outline: 3px solid rgba(124,92,255,0.16); o
   cursor:pointer;
 }
 .chat-form button:hover{ opacity:0.9; }
+
+/* ações pós plano */
+.plan-actions{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+.plan-actions button{ padding:8px 14px; border:none; border-radius:6px; background: var(--accent); color:#fff; cursor:pointer; }
+.plan-actions button:hover{ opacity:0.9; }

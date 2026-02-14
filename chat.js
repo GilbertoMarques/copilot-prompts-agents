@@ -117,11 +117,62 @@
 
     appendMessage(`Olá! Recebi suas informações do entrevistador.\n\nVejo que você escolheu ${career} e tem ${hours} horas por semana para estudar. Perfeito!\n\nVou montar agora seu plano completo personalizado...`,'bot');
 
-    // compose plan according to template
-    let plan = `🧩 VISÃO DO DIA A DIA\n\nComo é o trabalho de um(a) ${career}:\n- (atividade típica 1)\n- (atividade típica 2)\n- (atividade típica 3)\n- (atividade típica 4)\n- (atividade típica 5)\n\n🧠 MAPA DE SKILLS\n\nCORE SKILLS (essenciais):\n- (skill 1)\n- (skill 2)\n- (skill 3)\n\nNICE-TO-HAVE (complementares):\n- (skill 1)\n- (skill 2)\n\nFERRAMENTAS E TECNOLOGIAS:\n- (tecnologia 1)\n- (tecnologia 2)\n- (tecnologia 3)\n\n📅 ROADMAP DE 90 DIAS\n\nADAPTADO PARA: ${hours} horas/semana\n\nMÊS 1 - FUNDAMENTOS\n\nSEMANA 1-2:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 3-4:\n- (meta específica 1)\n- (meta específica 2)\n\nMÊS 2 - PRÁTICA\n\nSEMANA 5-6:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 7-8:\n- (meta específica 1)\n- (meta específica 2)\n\nMÊS 3 - PORTFÓLIO E PREPARAÇÃO\n\nSEMANA 9-10:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 11-12:\n- (meta específica 1)\n- (meta específica 2)\n\n🚀 PROJETO DE PORTFÓLIO\n\nPROJETO: (nome do projeto)\n\nO QUE FAZER:\n(descrição clara do escopo)\n\nENTREGÁVEIS:\n- (entregável 1)\n- (entregável 2)\n- (entregável 3)\n\nCRITÉRIOS DE ACEITAÇÃO:\n- (critério 1)\n- (critério 2)\n- (critério 3)\n\nDICA: (dica prática para executar o projeto)\n\n💬 ROTEIRO DE ENTREVISTAS\n\nPERGUNTA 1: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 2: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 3: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 4: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 5: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\n🎓 TRILHA DIO RECOMENDADA\n\nTRILHA: (nome específico da trilha/bootcamp DIO)\n\nPOR QUE ESSA TRILHA:\n(explicação de como conecta com a carreira)\n\nPRÓXIMOS PASSOS:\n1. Acesse dio.me\n2. Busque por "(nome da trilha)"\n3. Inscreva-se gratuitamente\n4. Siga o cronograma junto com este roadmap\n\n✨ Seu plano está pronto!\n\nLembre-se: o mais importante é a constância, não a velocidade. Comece pela Semana 1 e vá no seu ritmo.\n\nTem alguma dúvida sobre o plano? Posso detalhar alguma parte específica?`;
+    // load data for this career
+    const data = window.careerData?.[career];
+    const planObj = {};
+    let planText = `🧩 VISÃO DO DIA A DIA\n\nComo é o trabalho de um(a) ${career}:\n`;
+    (data?.activities||[]).forEach(a=>{ planText += `- ${a}\n`; });
+    planText += `\n🧠 MAPA DE SKILLS\n\nCORE SKILLS (essenciais):\n`;
+    (data?.coreSkills||[]).forEach(s=>{ planText += `- ${s}\n`; });
+    planText += `\nNICE-TO-HAVE (complementares):\n`;
+    (data?.niceSkills||[]).forEach(s=>{ planText += `- ${s}\n`; });
+    planText += `\nFERRAMENTAS E TECNOLOGIAS:\n`;
+    (data?.tools||[]).forEach(t=>{ planText += `- ${t}\n`; });
 
-    appendMessage(plan,'bot');
-    // no further interaction required
+    planText += `\n📅 ROADMAP DE 90 DIAS\n\nADAPTADO PARA: ${hours} horas/semana\n\n`;
+    planText += `MÊS 1 - FUNDAMENTOS\n\nSEMANA 1-2:\n- Estudar os fundamentos de ${career}.\n- Fazer exercícios práticos básicos.\n\nSEMANA 3-4:\n- Construir pequenos projetos de exemplo.\n- Revisar conceitos que ainda tiver dúvidas.\n\nMÊS 2 - PRÁTICA\n\nSEMANA 5-6:\n- Desenvolver projeto principal (ver abaixo).\n- Ler documentação e ampliar conhecimentos.\n\nSEMANA 7-8:\n- Adicionar funcionalidades extras ao projeto.\n- Começar a compartilhar código em GitHub.\n\nMÊS 3 - PORTFÓLIO E PREPARAÇÃO\n\nSEMANA 9-10:\n- Finalizar e documentar o projeto.\n- Criar perfil profissional (LinkedIn/GitHub).\n\nSEMANA 11-12:\n- Simular entrevistas com perguntas comuns.\n- Aplicar para vagas ou cursos.\n\n🚀 PROJETO DE PORTFÓLIO\n\nPROJETO: ${data?.project?.name||'Projeto de exemplo'}\n\nO QUE FAZER:\n${data?.project?.scope||'Descrever o escopo aqui.'}\n\nENTREGÁVEIS:\n`;
+    (data?.project?.deliverables||[]).forEach(d=>{ planText += `- ${d}\n`; });
+    planText += `\nCRITÉRIOS DE ACEITAÇÃO:\n`;
+    (data?.project?.criteria||[]).forEach(c=>{ planText += `- ${c}\n`; });
+    planText += `\nDICA: ${data?.project?.tip||''}\n`;
+
+    planText += `\n💬 ROTEIRO DE ENTREVISTAS\n\n`;
+    (data?.interview||[]).forEach((qa,i)=>{
+      planText += `PERGUNTA ${i+1}: ${qa.q}\nCOMO RESPONDER:\n${qa.a}\n\n`;
+    });
+
+    planText += `🎓 TRILHA DIO RECOMENDADA\n\nTRILHA: ${data?.dio?.trail||''}\n\nPOR QUE ESSA TRILHA:\n${data?.dio?.reason||''}\n\nPRÓXIMOS PASSOS:\n1. Acesse dio.me\n2. Busque por "${data?.dio?.trail||''}"\n3. Inscreva-se gratuitamente\n4. Siga o cronograma junto com este roadmap\n\n✨ Seu plano está pronto!\n\nLembre-se: o mais importante é a constância, não a velocidade. Comece pela Semana 1 e vá no seu ritmo.\n\nTem alguma dúvida sobre o plano? Posso detalhar alguma parte específica?`;
+
+    // persist plan in localStorage
+    planObj.career=career; planObj.hours=hours; planObj.text=planText;
+    localStorage.setItem('lastPlan', JSON.stringify(planObj));
+
+    appendMessage(planText,'bot');
+    // add interaction buttons
+    const btnContainer = document.createElement('div');
+    btnContainer.className='plan-actions';
+    const againBtn = document.createElement('button');
+    againBtn.textContent='Diga outra carreira';
+    againBtn.onclick=()=>{ window.location.href='../atlas/index.html'; };
+    const pdfBtn = document.createElement('button');
+    pdfBtn.textContent='Gerar PDF';
+    pdfBtn.onclick=()=>{
+      const w = window.open('','_blank');
+      w.document.write('<pre>'+planText.replace(/</g,'&lt;')+'</pre>');
+      w.document.close();
+      w.print();
+    };
+    const emailBtn = document.createElement('button');
+    emailBtn.textContent='Enviar por email';
+    emailBtn.onclick=()=>{
+      const body = encodeURIComponent(planText);
+      window.location.href='mailto:?subject=Meu plano de carreira&body='+body;
+    };
+    btnContainer.appendChild(againBtn);
+    btnContainer.appendChild(pdfBtn);
+    btnContainer.appendChild(emailBtn);
+    messages.appendChild(btnContainer);
+
     form.querySelector('input').disabled=true;
     form.querySelector('button').disabled=true;
   }
