@@ -1,5 +1,7 @@
 // chat.js – implementação local orientada pelas regras do agente Atlas
+// ensure script runs after DOM is ready to avoid missing elements
 (function(){
+  document.addEventListener('DOMContentLoaded', ()=>{
   const questions = [
     "Olá! Vou te ajudar a descobrir a melhor carreira em tecnologia para você.\n\nPara começar: o que mais te atrai em tecnologia - resolver problemas, criar produtos ou entender sistemas?",
     "Legal! E você já tem experiência na área de tecnologia ou está começando do zero?",
@@ -224,4 +226,5 @@
     form.querySelector('input').disabled=true;
     form.querySelector('button').disabled=true;
   }
+  });
 })();
