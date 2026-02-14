@@ -12,6 +12,7 @@
     "Última pergunta: você tem alguma experiência prévia (mesmo que não seja em tech) que gostaria de aproveitar nessa nova jornada?"
   ];
   let answers = [];
+  let answersMeta = {};
 
   const form = document.getElementById('chat-form');
   const input = document.getElementById('chat-input');
@@ -43,6 +44,36 @@
     return appendMessage(text, 'bot');
   }
 
+  // helpers: normalization, keyword extraction and simple intent checks
+  function normalizeText(s){
+    return (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').trim();
+  }
+
+  function extractKeywords(s){
+    const norm = normalizeText(s);
+    const words = norm.split(/[^a-z0-9]+/i).filter(Boolean);
+    return Array.from(new Set(words));
+  }
+
+  function isLikelyTechInterest(s){
+    const k = normalizeText(s);
+    const tech = ['program', 'programar','codigo','codar','software','aplicativo','app','web','site','desenvolv','jogo','game','dados','infra','cloud','ux','design','ia','inteligencia','machine','aprender'];
+    return tech.some(t=>k.includes(t));
+  }
+
+  function mapPreference(s){
+    const k = normalizeText(s);
+    if(/pessoas|com pessoas|humano|usuari/.test(k)) return 'pessoas';
+    if(/dados|data|analise|analit/.test(k)) return 'dados';
+    if(/codigo|codigo|programa|desenvolv|dev|programar|code|codar/.test(k)) return 'código';
+    return null;
+  }
+
+  function validateHours(s){
+    const n = parseInt(s.replace(/[^0-9]/g,''));
+    return isNaN(n) ? null : n;
+  }
+
   async function askNext(){
     console.log('askNext called, answers so far', answers);
     if(answers.length < questions.length){
@@ -55,16 +86,83 @@
 
   form.addEventListener('submit', async e=>{
     e.preventDefault();
-    const val = input.value.trim();
+    const valRaw = input.value || '';
+    const val = valRaw.trim();
     if(!val) return;
+    // show user's message
     appendMessage(val, 'user');
     input.value='';
+
     if(form.dataset.phase==='choice'){
       handleChoice(val);
-    } else {
-      answers.push(val);
-      await askNext();
+      return;
     }
+
+    // validation / normalization per question
+    const idx = answers.length; // index of the question being answered
+    // Q0: attraction (expect resolver/criar/entender) - ask clarifying if ambiguous
+    if(idx===0){
+      const norm = normalizeText(val);
+      if(!/resolver|criar|entender/.test(norm)){
+        if(isLikelyTechInterest(val)){
+          // map common tech interest words to closest option
+          if(/jogo|game/.test(norm)){
+            await sendBot('Quando você diz que gosta de jogos, você quer *criar produtos* (ex: desenvolver jogos) ou é apenas hobby? Responda: criar produtos / resolver problemas / entender sistemas.');
+            return;
+          }
+          // otherwise accept but normalize to 'criar produtos'
+          answersMeta.attraction = 'criar produtos';
+        } else {
+          await sendBot('Poderia escolher entre: *resolver problemas*, *criar produtos* ou *entender sistemas*? Isso me ajuda a sugerir carreiras mais alinhadas.');
+          return;
+        }
+      } else {
+        answersMeta.attraction = norm.match(/resolver|criar|entender/)[0];
+      }
+    }
+
+    // Q1: experience - store normalized
+    if(idx===1){
+      const n = normalizeText(val);
+      if(/^\d/.test(n)){
+        answersMeta.experience = n;
+      } else if(/nao|nenhum|zero|sem|começando|inicio/.test(n)){
+        answersMeta.experience = 'iniciante';
+      } else if(/sim|ja|experiencia|anoso|anos/.test(n)){
+        answersMeta.experience = 'com experiencia';
+      } else {
+        answersMeta.experience = n;
+      }
+    }
+
+    // Q2: hours - require numeric
+    if(idx===2){
+      const h = validateHours(val);
+      if(h===null){
+        await sendBot('Por favor informe *apenas* um número aproximado de horas por semana (ex: 10).');
+        return;
+      }
+      answersMeta.hours = h;
+    }
+
+    // Q3: preference - normalize to pessoas/dados/código
+    if(idx===3){
+      const pref = mapPreference(val);
+      if(!pref){
+        await sendBot('Você prefere lidar mais com *pessoas*, *dados* ou *código*? Responda com uma dessas opções.');
+        return;
+      }
+      answersMeta.preference = pref;
+    }
+
+    // Q5: technical interests - extract keywords
+    if(idx===5){
+      answersMeta.interests = extractKeywords(val);
+    }
+
+    // push the (raw) value so existing flows work, then continue
+    answers.push(val);
+    await askNext();
   });
 
   // start
