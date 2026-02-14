@@ -225,7 +225,9 @@
         .plan{white-space:pre-wrap;}
         .result-card{background:#334155;padding:10px 14px;border-radius:10px;margin:8px 0;}
       `;
-      w.document.write('<html><head><title>Plano de Carreira</title><style>'+style+'</style></head><body><div class="plan">'+planText.replace(/</g,'&lt;').replace(/\n/g,'<br>')+'</div></body></html>');
+      w.document.write('<html><head><title>Plano de Carreira</title><style>'+style+'</style></head><body>'+
+        '<h1>'+career+'</h1>'+
+        '<div class="plan">'+planText.replace(/</g,'&lt;').replace(/\n/g,'<br>')+'</div></body></html>');
       w.document.close();
       w.print();
     };

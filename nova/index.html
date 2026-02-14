@@ -21,6 +21,29 @@
 
     <!-- bust cache by adding version parameter, using relative path to parent -->
     <script src="../chat.js?v=1.0.4"></script>
+    <script>
+      // add persistent PDF button if there is saved plan
+      document.addEventListener('DOMContentLoaded', ()=>{
+        const stored = localStorage.getItem('lastPlan');
+        if(stored){
+          try{
+            const plan = JSON.parse(stored);
+            const btn = document.createElement('button');
+            btn.textContent = 'Gerar PDF do último plano';
+            btn.className='plan-actions';
+            btn.style.marginTop='12px';
+            btn.onclick = ()=>{
+              const win = window.open('','_blank');
+              const style = `body{font-family:Arial,sans-serif;padding:20px;color:#e6eef8;background:#0f1724;} .plan{white-space:pre-wrap;} .result-card{background:#334155;padding:10px 14px;border-radius:10px;margin:8px 0;}`;
+              win.document.write('<html><head><title>Plano</title><style>'+style+'</style></head><body><h1>'+plan.career+'</h1><div class="plan">'+plan.html+'</div></body></html>');
+              win.document.close();
+              win.print();
+            };
+            document.querySelector('.container').appendChild(btn);
+          }catch(e){console.error(e);}
+        }
+      });
+    </script>
     <script src="../config.js" onerror="console.warn('config.js não encontrado; crie com sua chave.');"></script>
 
     <!-- modal for transfer info -->
