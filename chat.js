@@ -124,7 +124,7 @@
     });
   }
 
-  function handleChoice(choice){
+  async function handleChoice(choice){
     const chosen = choice.trim().toLowerCase();
     const careersMap = { 'desenvolvedor web': 'Desenvolvedor Web', 'cientista de dados':'Cientista de Dados','engenheiro de infraestrutura':'Engenheiro de Infraestrutura','designer de ux':'Designer de UX','analista de segurança':'Analista de Segurança' };
     const careerName = careersMap[chosen] || choice;
