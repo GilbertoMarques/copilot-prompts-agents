@@ -41,11 +41,12 @@
     return ind;
   }
 
-  function askNext(){
+  async function askNext(){
     if(answers.length < questions.length){
-      appendMessage(questions[answers.length], 'bot');
+      // display question in italics for clarity
+      await sendBot(`*${questions[answers.length]}*`);
     } else {
-      analyzeAndSuggest();
+      await analyzeAndSuggest();
     }
   }
 
