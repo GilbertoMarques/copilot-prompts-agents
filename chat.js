@@ -61,6 +61,17 @@
     return tech.some(t=>k.includes(t));
   }
 
+  function isNonInformative(s){
+    const k = normalizeText(s);
+    if(!k) return true;
+    const junk = ['teste','ok','ta','tao','blabla','bla','sei','sei la','nao sei','naosei','qq','qqr','qualquer','teste123'];
+    if(k.length<3) return true;
+    if(junk.some(j=>k===j || k.includes(j))) return true;
+    // if answer is a single unrelated word like 'jogar', consider asking clarifying
+    if(k.split(/\s+/).length===1 && !isLikelyTechInterest(k)) return true;
+    return false;
+  }
+
   function mapPreference(s){
     const k = normalizeText(s);
     if(/pessoas|com pessoas|humano|usuari/.test(k)) return 'pessoas';
@@ -89,6 +100,11 @@
     const valRaw = input.value || '';
     const val = valRaw.trim();
     if(!val) return;
+    // reject non-informative replies like "teste" and ask for clarification
+    if(isNonInformative(val)){
+      await sendBot('Não entendi sua resposta — pode responder com mais informações reais? Por exemplo: se for sobre interesses, diga *criar produtos*, *resolver problemas* ou *entender sistemas*.');
+      return;
+    }
     // show user's message
     appendMessage(val, 'user');
     input.value='';
@@ -184,19 +200,40 @@
     ];
     careers.forEach(c=>{
       let score=0;
-      const a1=answers[0].toLowerCase();
-      c.interests.forEach(i=>{ if(a1.includes(i)) score+=5; });
-      const a2=answers[1].toLowerCase();
-      c.keywords.forEach(k=>{ if(a2.includes(k)) score+=3; });
-      const a4=answers[3].toLowerCase();
-      if(a4.includes(c.field)) score+=4;
-      const h=parseInt(answers[2]);
-      if(!isNaN(h)){
-        if(h>=20) score+=5;
-        else if(h>=10) score+=3;
-        else score+=1;
+      // use normalized metadata when available
+      const attr = normalizeText(answersMeta.attraction || answers[0] || '');
+      const prefs = normalizeText(answersMeta.preference || answers[3] || '');
+      const hrs = answersMeta.hours || validateHours(answers[2]||'') || 0;
+      const kws = Array.isArray(answersMeta.interests) ? answersMeta.interests : extractKeywords(answers[5]||'');
+
+      // attraction matching (strong weight)
+      c.interests.forEach(i=>{
+        const ni = normalizeText(i);
+        if(attr.includes(ni) || attr.includes(ni.split(' ')[0])) score += 5;
+      });
+
+      // keyword overlap from user interests
+      kws.forEach(k=>{
+        c.keywords.forEach(ck=>{ if(normalizeText(ck).includes(k) || k.includes(normalizeText(ck))) score += 3; });
+      });
+
+      // preference field (people/data/code)
+      if(prefs && normalizeText(c.field).includes(prefs)) score += 4;
+
+      // hours availability
+      if(hrs>=20) score += 5;
+      else if(hrs>=10) score += 3;
+      else if(hrs>0) score += 1;
+
+      // if user mentioned 'jogo' map to developer if applicable
+      if(kws.includes('jogo') || kws.includes('game')){
+        if(c.name.toLowerCase().includes('desenvolvedor')) score += 3;
       }
-      c.score=score;
+
+      // small boost for market demand
+      if(c.market && (c.market.includes('alta') || c.market.includes('muito'))) score += 1;
+
+      c.score = score;
     });
     careers.sort((a,b)=>b.score-a.score);
     const top3=careers.slice(0,3);
