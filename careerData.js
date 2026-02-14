@@ -25,6 +25,15 @@ window.careerData = {
       {q:"O que é REST?", a:"É um estilo de arquitetura para APIs usando verbos HTTP e recursos."},
       {q:"Como você debuga um erro em produção?", a:"Uso logs, ferramentas de monitoramento e reproduzo localmente se possível."}
     ],
+    salary: {
+      junior: "3k-5k BRL/mês",
+      pleno: "6k-10k BRL/mês",
+      senior: "11k+ BRL/mês"
+    },
+    jobLinks: [
+      "https://www.linkedin.com/jobs/view/1234567890/", 
+      "https://www.indeed.com/viewjob?jk=abcdef12345"
+    ],
     dio: {trail: "Desenvolvimento Web Full Stack", reason:"Abrange front-end e back-end essenciais para a carreira."}
   },
   "Cientista de Dados": {
@@ -51,6 +60,15 @@ window.careerData = {
       {q:"Explique a diferença entre regressão e classificação.", a:"Regressão prevê valores contínuos; classificação categoriza em classes."},
       {q:"Quando usar KMeans?", a:"Para agrupar dados não rotulados em clusters semelhantes."},
       {q:"O que é validação cruzada?", a:"Técnica para avaliar o modelo em diferentes subconjuntos de dados."}
+    ],
+    salary: {
+      junior: "4k-6k BRL/mês",
+      pleno: "7k-12k BRL/mês",
+      senior: "13k+ BRL/mês"
+    },
+    jobLinks: [
+      "https://www.linkedin.com/jobs/view/0987654321/",
+      "https://www.indeed.com/viewjob?jk=xyz987654"
     ],
     dio: {trail: "Ciência de Dados", reason:"Foca em estatística e machine learning usados no dia a dia."}
   }

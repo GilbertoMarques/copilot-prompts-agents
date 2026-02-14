@@ -107,11 +107,23 @@
       const c = top3[i];
       const medal = ['🥇 1º LUGAR','🥈 2º LUGAR','🥉 3º LUGAR'][i];
       let block = `${medal}: *${c.name}* - *${c.score}/20*\n`;
+      // add salary information if available
+      const data = window.careerData?.[c.name] || {};
+      if(data.salary){
+        block += `💰 *FAIXA SALARIAL:*\n` +
+                 `Junior: ${data.salary.junior} | ` +
+                 `Pleno: ${data.salary.pleno} | ` +
+                 `Senior: ${data.salary.senior}\n`;
+      }
       block += `💡 *POR QUE COMBINA COM VOCÊ:*\n- Afinidade com seus interesses e disponibilidade.\n`;
       block += `⚖️ *O QUE ESPERAR:*\n`;
       block += `*VANTAGENS:*\n- ${c.advantages.join('\n- ')}\n`;
       block += `*DESAFIOS:*\n- ${c.challenges.join('\n- ')}\n`;
       block += `*MERCADO:* ${c.market} (varia por região/experiência)`;
+      if(data.jobLinks && data.jobLinks.length){
+        block += `\n\n🔗 *VAGAS EM ALTA:*\n`;
+        data.jobLinks.slice(0,2).forEach(l=>{ block += `- ${l}\n`; });
+      }
       await sendBot(block);
     }
     await sendBot("Qual dessas carreiras te chamou mais atenção?");
