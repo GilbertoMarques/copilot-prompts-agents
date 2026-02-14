@@ -53,7 +53,8 @@
 </ul>`;
           const modal = document.getElementById('info-modal');
           modal.classList.remove('hidden');
-          document.getElementById('modal-close').onclick = ()=> modal.classList.add('hidden');
+          modal.classList.add('show');
+          document.getElementById('modal-close').onclick = ()=> { modal.classList.remove('show'); setTimeout(()=>modal.classList.add('hidden'),300); }
         }
       })();
     </script>

@@ -138,7 +138,10 @@
       preference: answers[3],
       interests: answers[5]
     });
-    setTimeout(()=>{ window.location.href='../nova/index.html?'+params.toString(); }, 2000);
+    // compute target path relative to current location to robustly reach nova folder
+    const base = window.location.pathname.replace(/\/[^\/]*$/, '/');
+    const target = base + 'nova/index.html?' + params.toString();
+    setTimeout(()=>{ window.location.href=target; }, 2000);
   }
 
   // planner logic executed when Nova page loaded with params
@@ -179,7 +182,10 @@
     planText += `🎓 TRILHA DIO RECOMENDADA\n\nTRILHA: ${data?.dio?.trail||''}\n\nPOR QUE ESSA TRILHA:\n${data?.dio?.reason||''}\n\nPRÓXIMOS PASSOS:\n1. Acesse dio.me\n2. Busque por "${data?.dio?.trail||''}"\n3. Inscreva-se gratuitamente\n4. Siga o cronograma junto com este roadmap\n\n✨ Seu plano está pronto!\n\nLembre-se: o mais importante é a constância, não a velocidade. Comece pela Semana 1 e vá no seu ritmo.\n\nTem alguma dúvida sobre o plano? Posso detalhar alguma parte específica?`;
 
     // persist plan in localStorage
-    planObj.career=career; planObj.hours=hours; planObj.text=planText;
+    planObj.career=career; planObj.hours=hours;
+    planObj.text=planText;
+    // also store HTML version for future display
+    planObj.html = planText.replace(/\n/g,'<br>');
     localStorage.setItem('lastPlan', JSON.stringify(planObj));
 
     appendMessage(planText,'bot');
@@ -193,7 +199,13 @@
     pdfBtn.textContent='Gerar PDF';
     pdfBtn.onclick=()=>{
       const w = window.open('','_blank');
-      w.document.write('<pre>'+planText.replace(/</g,'&lt;')+'</pre>');
+      // inject minimal styles to mimic bubbles and cards
+      const style = `
+        body{font-family:Arial,sans-serif;padding:20px;color:#e6eef8;background:#0f1724;}
+        .plan{white-space:pre-wrap;}
+        .result-card{background:#334155;padding:10px 14px;border-radius:10px;margin:8px 0;}
+      `;
+      w.document.write('<html><head><title>Plano de Carreira</title><style>'+style+'</style></head><body><div class="plan">'+planText.replace(/</g,'&lt;').replace(/\n/g,'<br>')+'</div></body></html>');
       w.document.close();
       w.print();
     };
