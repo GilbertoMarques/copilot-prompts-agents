@@ -22,7 +22,7 @@ Responsável por conduzir uma **entrevista estruturada de 7 perguntas** para ent
 4. Aguarda a escolha do usuário  
 5. Transfere todas as informações para o Agent 2  
 
-👉 [Converse com o Altas](URL_DO_AGENT_1)
+👉 [Converse com o Altas](https://gilbertomarques.github.io/copilot-prompts-agents/atlas/)
 
 ---
 
