@@ -72,5 +72,39 @@ window.careerData = {
     ],
     dio: {trail: "Ciência de Dados", reason:"Foca em estatística e machine learning usados no dia a dia."}
   }
+  ,
+  "Desenvolvedor de Games": {
+    activities: [
+      "Projetar e desenvolver mecânicas de jogo",
+      "Programar gameplay e sistemas de física",
+      "Colaborar com designers, artistas e som",
+      "Otimizar performance para múltiplas plataformas",
+      "Testar e iterar com base no feedback de jogadores"
+    ],
+    coreSkills: ["C# / Unity", "Lógica de programação", "Math for Games"],
+    niceSkills: ["Unreal / Blueprints", "Shaders", "Ferramentas de áudio"],
+    tools: ["Unity", "Unreal Engine", "Git", "Blender"],
+    project: {
+      name: "Mini-jogo Interativo",
+      scope: "Crie um protótipo jogável com uma mecânica central e interface simples.",
+      deliverables: ["Build jogável (PC ou Web)", "Documentação do gameplay", "Repositório com versão controlada"],
+      criteria: ["Mecânica principal implementada e jogável", "Performance aceitável", "Boa documentação"],
+      tip: "Comece pequeno: foque em uma mecânica divertida antes de escalar o projeto."
+    },
+    interview: [
+      {q:"Como você implementaria um sistema de física simples?", a:"Explique sua abordagem, uso de motor físico ou simplificação para performance."},
+      {q:"Como otimizaria o desempenho de um jogo em dispositivos fracos?", a:"Fale sobre LOD, batching, redução de draw calls e profiling."}
+    ],
+    salary: {
+      junior: "3k-6k BRL/mês",
+      pleno: "6k-11k BRL/mês",
+      senior: "12k+ BRL/mês"
+    },
+    jobLinks: [
+      "https://www.linkedin.com/jobs/search/?keywords=game%20developer",
+      "https://www.indeed.com/q-Game-Developer-jobs.html"
+    ],
+    dio: {trail: "Desenvolvimento de Games", reason:"Trilha focada em engines e práticas de desenvolvimento para jogos."}
+  }
   // add other careers as needed
 };

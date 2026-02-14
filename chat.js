@@ -193,6 +193,7 @@
   async function analyzeAndSuggest(){
     const careers = [
       {name:'Desenvolvedor Web', interests:['criar produtos','resolver problemas','entender sistemas'], keywords:['web','html','css','javascript'], field:'código', advantages:['alta demanda','facil acesso a recursos'], challenges:['muita atualização constante','concorrência alta'], market:'muito alta'},
+      {name:'Desenvolvedor de Games', interests:['criar produtos','resolver problemas'], keywords:['game','jogo','unity','unreal','c#'], field:'código', advantages:['criatividade e expressão','mercado nicho em crescimento'], challenges:['alta competitividade','requer portfólio forte'], market:'alta'},
       {name:'Cientista de Dados', interests:['entender sistemas','resolver problemas'], keywords:['dados','python','estatística'], field:'dados', advantages:['alto salário','trabalha com insights'], challenges:['curva de aprendizagem em matemática','ferramentas complexas'], market:'alta'},
       {name:'Engenheiro de Infraestrutura', interests:['entender sistemas','resolver problemas'], keywords:['infra','rede','cloud'], field:'código', advantages:['estruturas robustas','essencial em grandes empresas'], challenges:['on-call 24/7','trabalha com sistemas críticos'], market:'boa'},
       {name:'Designer de UX', interests:['criar produtos'], keywords:['design','ui','ux'], field:'pessoas', advantages:['envolvimento criativo','foco no usuário'], challenges:['subjetividade nas avaliações','pode ser desvalorizado'], market:'boa'},
