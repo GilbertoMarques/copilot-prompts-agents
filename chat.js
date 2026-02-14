@@ -18,9 +18,27 @@
   function appendMessage(text, sender='bot'){
     const div = document.createElement('div');
     div.className = sender + '-message';
-    div.textContent = text;
+    if(sender==='bot'){
+      // simple markdown: *bold*
+      const html = text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+      div.innerHTML = html.replace(/\n/g,'<br>');
+    } else {
+      div.textContent = text;
+    }
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  // simulate bot typing, returns promise that resolves when message fully shown
+  async function sendBot(text){
+    // show typing indicator
+    const ind = appendMessage('...', 'bot');
+    // delay proportional to length (min 500ms)
+    await new Promise(r=>setTimeout(r, Math.max(500, text.length*20)));
+    // replace indicator with actual text
+    ind.textContent = text;
+    return ind;
   }
 
   function askNext(){
@@ -54,7 +72,7 @@
   }
   askNext();
 
-  function analyzeAndSuggest(){
+  async function analyzeAndSuggest(){
     const careers = [
       {name:'Desenvolvedor Web', interests:['criar produtos','resolver problemas','entender sistemas'], keywords:['web','html','css','javascript'], field:'código', advantages:['alta demanda','facil acesso a recursos'], challenges:['muita atualização constante','concorrência alta'], market:'muito alta'},
       {name:'Cientista de Dados', interests:['entender sistemas','resolver problemas'], keywords:['dados','python','estatística'], field:'dados', advantages:['alto salário','trabalha com insights'], challenges:['curva de aprendizagem em matemática','ferramentas complexas'], market:'alta'},
@@ -80,13 +98,19 @@
     });
     careers.sort((a,b)=>b.score-a.score);
     const top3=careers.slice(0,3);
-    let text="Com base no seu perfil, identifiquei 3 carreiras muito promissoras:\n";
-    top3.forEach((c,i)=>{
-      const medal=['🥇 1º LUGAR','🥈 2º LUGAR','🥉 3º LUGAR'][i];
-      text+=`\n${medal}: ${c.name} - ${c.score}/20\n\n💡 POR QUE COMBINA COM VOCÊ:\n- Afinidade com seus interesses e disponibilidade.\n\n⚖️ O QUE ESPERAR:\n\nVANTAGENS:\n- ${c.advantages.join('\n- ')}\n\nDESAFIOS:\n- ${c.challenges.join('\n- ')}\n\n📈 MERCADO:\n${c.market} (varia por região/experiência)\n\n-------------------------------------------\n`;
-    });
-    text+="\nQual dessas carreiras te chamou mais atenção?";
-    appendMessage(text,'bot');
+    await sendBot("Com base no seu perfil, identifiquei 3 carreiras muito promissoras:");
+    for(let i=0;i<top3.length;i++){
+      const c = top3[i];
+      const medal = ['🥇 1º LUGAR','🥈 2º LUGAR','🥉 3º LUGAR'][i];
+      let block = `${medal}: *${c.name}* - *${c.score}/20*\n`;
+      block += `💡 *POR QUE COMBINA COM VOCÊ:*\n- Afinidade com seus interesses e disponibilidade.\n`;
+      block += `⚖️ *O QUE ESPERAR:*\n`;
+      block += `*VANTAGENS:*\n- ${c.advantages.join('\n- ')}\n`;
+      block += `*DESAFIOS:*\n- ${c.challenges.join('\n- ')}\n`;
+      block += `*MERCADO:* ${c.market} (varia por região/experiência)`;
+      await sendBot(block);
+    }
+    await sendBot("Qual dessas carreiras te chamou mais atenção?");
     form.dataset.phase='choice';
   }
 
