@@ -119,6 +119,8 @@
     const careersMap = { 'desenvolvedor web': 'Desenvolvedor Web', 'cientista de dados':'Cientista de Dados','engenheiro de infraestrutura':'Engenheiro de Infraestrutura','designer de ux':'Designer de UX','analista de segurança':'Analista de Segurança' };
     const careerName = careersMap[chosen] || choice;
     appendMessage(`Excelente escolha! Vou te passar para meu colega especialista em ${careerName}. Ele vai montar todo o plano de estudos personalizado para você!`,'bot');
+    // simulate transfer typing
+    await sendBot('Aguarde um instante, estou transferindo suas informações para o agente Nova...');
     const params = new URLSearchParams({
       career: careerName,
       hours: answers[2],
@@ -127,7 +129,7 @@
       preference: answers[3],
       interests: answers[5]
     });
-    setTimeout(()=>{ window.location.href='../nova/index.html?'+params.toString(); }, 3000);
+    setTimeout(()=>{ window.location.href='../nova/index.html?'+params.toString(); }, 2000);
   }
 
   // planner logic executed when Nova page loaded with params
