@@ -36,12 +36,13 @@
     const ind = appendMessage('...', 'bot');
     // delay proportional to length (min 500ms)
     await new Promise(r=>setTimeout(r, Math.max(500, text.length*20)));
-    // replace indicator with actual text
-    ind.textContent = text;
-    return ind;
+    // remove indicator and append real message with markdown
+    ind.remove();
+    return appendMessage(text, 'bot');
   }
 
   async function askNext(){
+    console.log('askNext called, answers so far', answers);
     if(answers.length < questions.length){
       // display question in italics for clarity
       await sendBot(`*${questions[answers.length]}*`);
@@ -50,7 +51,7 @@
     }
   }
 
-  form.addEventListener('submit', e=>{
+  form.addEventListener('submit', async e=>{
     e.preventDefault();
     const val = input.value.trim();
     if(!val) return;
@@ -60,7 +61,7 @@
       handleChoice(val);
     } else {
       answers.push(val);
-      askNext();
+      await askNext();
     }
   });
 
