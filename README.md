@@ -43,7 +43,7 @@ Responsável por criar um **plano de estudos personalizado** com base na carreir
 4. Sugere recursos, tecnologias e práticas recomendadas  
 5. Acompanha a evolução e ajusta o plano conforme necessário  
 
-👉 [Converse com o Nova](URL_DO_AGENT_2)
+👉 [Converse com o Nova](https://gilbertomarques.github.io/copilot-prompts-agents/nova/)
 
 ---
 
