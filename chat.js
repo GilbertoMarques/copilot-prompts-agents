@@ -113,6 +113,14 @@
     }
     await sendBot("Qual dessas carreiras te chamou mais atenção?");
     form.dataset.phase='choice';
+    // wrap previous sent career blocks into result-cards for improved layout
+    const cards = document.querySelectorAll('.bot-message');
+    cards.forEach(msg=>{
+      if(!msg.dataset.card){
+        msg.classList.add('result-card');
+        msg.dataset.card='1';
+      }
+    });
   }
 
   function handleChoice(choice){

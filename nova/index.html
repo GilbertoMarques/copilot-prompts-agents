@@ -21,8 +21,17 @@
 
     <script src="../chat.js"></script>
     <script src="../config.js" onerror="console.warn('config.js não encontrado; crie com sua chave.');"></script>
+
+    <!-- modal for transfer info -->
+    <div id="info-modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="modal-close" class="modal-close">&times;</span>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
     <script>
-      // exibir dados recebidos da fase anterior (Atlas)
+      // exibir dados recebidos da fase anterior (Atlas) em modal
       (function(){
         const params = new URLSearchParams(window.location.search);
         if(params.has('career')){
@@ -32,14 +41,19 @@
           const obj = params.get('objective');
           const pref = params.get('preference');
           const inter = params.get('interests');
-          const summary = `Recebi:
-- carreira: ${career}
-- horas/sem: ${hours}
-- experiência: ${exp}
-- objetivo: ${obj}
-- preferência: ${pref}
-- interesses: ${inter}`;
-          alert(summary);
+          const body = document.getElementById('modal-body');
+          body.innerHTML = `<h2>Informações recebidas</h2>
+<ul>
+<li><strong>Carreira:</strong> ${career}</li>
+<li><strong>Horas/sem:</strong> ${hours}</li>
+<li><strong>Experiência:</strong> ${exp}</li>
+<li><strong>Objetivo:</strong> ${obj}</li>
+<li><strong>Preferência:</strong> ${pref}</li>
+<li><strong>Interesses:</strong> ${inter}</li>
+</ul>`;
+          const modal = document.getElementById('info-modal');
+          modal.classList.remove('hidden');
+          document.getElementById('modal-close').onclick = ()=> modal.classList.add('hidden');
         }
       })();
     </script>
