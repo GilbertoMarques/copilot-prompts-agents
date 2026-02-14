@@ -46,6 +46,12 @@
   });
 
   // start
+  // if we're in Nova page with career param, run planner instead
+  const params = new URLSearchParams(window.location.search);
+  if(params.has('career')){
+    runPlanner(params);
+    return;
+  }
   askNext();
 
   function analyzeAndSuggest(){
@@ -98,5 +104,25 @@
       interests: answers[5]
     });
     setTimeout(()=>{ window.location.href='../nova/index.html?'+params.toString(); }, 3000);
+  }
+
+  // planner logic executed when Nova page loaded with params
+  function runPlanner(params){
+    const career = params.get('career');
+    const hours = params.get('hours');
+    const exp = params.get('experience');
+    const obj = params.get('objective');
+    const pref = params.get('preference');
+    const inter = params.get('interests');
+
+    appendMessage(`Olá! Recebi suas informações do entrevistador.\n\nVejo que você escolheu ${career} e tem ${hours} horas por semana para estudar. Perfeito!\n\nVou montar agora seu plano completo personalizado...`,'bot');
+
+    // compose plan according to template
+    let plan = `🧩 VISÃO DO DIA A DIA\n\nComo é o trabalho de um(a) ${career}:\n- (atividade típica 1)\n- (atividade típica 2)\n- (atividade típica 3)\n- (atividade típica 4)\n- (atividade típica 5)\n\n🧠 MAPA DE SKILLS\n\nCORE SKILLS (essenciais):\n- (skill 1)\n- (skill 2)\n- (skill 3)\n\nNICE-TO-HAVE (complementares):\n- (skill 1)\n- (skill 2)\n\nFERRAMENTAS E TECNOLOGIAS:\n- (tecnologia 1)\n- (tecnologia 2)\n- (tecnologia 3)\n\n📅 ROADMAP DE 90 DIAS\n\nADAPTADO PARA: ${hours} horas/semana\n\nMÊS 1 - FUNDAMENTOS\n\nSEMANA 1-2:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 3-4:\n- (meta específica 1)\n- (meta específica 2)\n\nMÊS 2 - PRÁTICA\n\nSEMANA 5-6:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 7-8:\n- (meta específica 1)\n- (meta específica 2)\n\nMÊS 3 - PORTFÓLIO E PREPARAÇÃO\n\nSEMANA 9-10:\n- (meta específica 1)\n- (meta específica 2)\n\nSEMANA 11-12:\n- (meta específica 1)\n- (meta específica 2)\n\n🚀 PROJETO DE PORTFÓLIO\n\nPROJETO: (nome do projeto)\n\nO QUE FAZER:\n(descrição clara do escopo)\n\nENTREGÁVEIS:\n- (entregável 1)\n- (entregável 2)\n- (entregável 3)\n\nCRITÉRIOS DE ACEITAÇÃO:\n- (critério 1)\n- (critério 2)\n- (critério 3)\n\nDICA: (dica prática para executar o projeto)\n\n💬 ROTEIRO DE ENTREVISTAS\n\nPERGUNTA 1: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 2: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 3: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 4: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\nPERGUNTA 5: (pergunta comum júnior)\nCOMO RESPONDER:\n(exemplo estruturado de resposta)\n\n🎓 TRILHA DIO RECOMENDADA\n\nTRILHA: (nome específico da trilha/bootcamp DIO)\n\nPOR QUE ESSA TRILHA:\n(explicação de como conecta com a carreira)\n\nPRÓXIMOS PASSOS:\n1. Acesse dio.me\n2. Busque por "(nome da trilha)"\n3. Inscreva-se gratuitamente\n4. Siga o cronograma junto com este roadmap\n\n✨ Seu plano está pronto!\n\nLembre-se: o mais importante é a constância, não a velocidade. Comece pela Semana 1 e vá no seu ritmo.\n\nTem alguma dúvida sobre o plano? Posso detalhar alguma parte específica?`;
+
+    appendMessage(plan,'bot');
+    // no further interaction required
+    form.querySelector('input').disabled=true;
+    form.querySelector('button').disabled=true;
   }
 })();
