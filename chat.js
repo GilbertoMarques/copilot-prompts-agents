@@ -13,6 +13,7 @@
   ];
   let answers = [];
   let answersMeta = {};
+  const defaultCity = 'Brasília';
 
   const form = document.getElementById('chat-form');
   const input = document.getElementById('chat-input');
@@ -191,6 +192,7 @@
   askNext();
 
   async function analyzeAndSuggest(){
+    const cityForLinks = answersMeta.location || defaultCity;
     const careers = [
       {name:'Desenvolvedor Web', interests:['criar produtos','resolver problemas','entender sistemas'], keywords:['web','html','css','javascript'], field:'código', advantages:['alta demanda','facil acesso a recursos'], challenges:['muita atualização constante','concorrência alta'], market:'muito alta'},
       {name:'Desenvolvedor de Games', interests:['criar produtos','resolver problemas'], keywords:['game','jogo','unity','unreal','c#'], field:'código', advantages:['criatividade e expressão','mercado nicho em crescimento'], challenges:['alta competitividade','requer portfólio forte'], market:'alta'},
@@ -262,8 +264,13 @@
       // show job links by region when available
       if((data.jobLinksBrazil && data.jobLinksBrazil.length) || (data.jobLinksInternational && data.jobLinksInternational.length) || (data.jobLinks && data.jobLinks.length)){
         if(data.jobLinksBrazil && data.jobLinksBrazil.length){
-          block += `\n\n🔗 *VAGAS (Brasil):*\n`;
-          data.jobLinksBrazil.slice(0,3).forEach(l=>{ block += `- ${l}\n`; });
+          block += `\n\n🔗 *VAGAS (Brasil) — ${cityForLinks}:*\n`;
+          data.jobLinksBrazil.slice(0,3).forEach(l=>{
+            let url = l;
+            if(url.includes('{city}')) url = url.replace(/\{city\}/g, encodeURIComponent(cityForLinks));
+            else url = url.includes('?') ? url + '&l=' + encodeURIComponent(cityForLinks) : url + '?l=' + encodeURIComponent(cityForLinks);
+            block += `- ${url}\n`;
+          });
         }
         if(data.jobLinksInternational && data.jobLinksInternational.length){
           block += `\n🔗 *VAGAS (Internacional):*\n`;
@@ -306,6 +313,7 @@
       career: careerName,
       hours: answers[2],
       experience: answers[1],
+      city: answersMeta.location || defaultCity,
       objective: answers[4],
       preference: answers[3],
       interests: answers[5]
@@ -329,6 +337,7 @@
     const obj = params.get('objective');
     const pref = params.get('preference');
     const inter = params.get('interests');
+    const cityParam = params.get('city') || defaultCity;
 
     appendMessage(`Olá! Recebi suas informações do entrevistador.\n\nVejo que você escolheu ${career} e tem ${hours} horas por semana para estudar. Perfeito!\n\nVou montar agora seu plano completo personalizado...`,'bot');
 
@@ -357,6 +366,27 @@
     });
 
     planText += `🎓 TRILHA DIO RECOMENDADA\n\nTRILHA: ${data?.dio?.trail||''}\n\nPOR QUE ESSA TRILHA:\n${data?.dio?.reason||''}\n\nPRÓXIMOS PASSOS:\n1. Acesse dio.me\n2. Busque por "${data?.dio?.trail||''}"\n3. Inscreva-se gratuitamente\n4. Siga o cronograma junto com este roadmap\n\n✨ Seu plano está pronto!\n\nLembre-se: o mais importante é a constância, não a velocidade. Comece pela Semana 1 e vá no seu ritmo.\n\nTem alguma dúvida sobre o plano? Posso detalhar alguma parte específica?`;
+    
+      // adicionar links de vagas filtradas pela cidade quando disponíveis
+      const dataJobs = window.careerData?.[career];
+      if(dataJobs){
+        planText += `\n\n🔗 VAGAS RECOMENDADAS (Brasil: ${cityParam}):\n`;
+        if(dataJobs.jobLinksBrazil && dataJobs.jobLinksBrazil.length){
+          dataJobs.jobLinksBrazil.slice(0,3).forEach(l=>{
+            let url = l;
+            if(url.includes('{city}')) url = url.replace(/\{city\}/g, encodeURIComponent(cityParam));
+            else url = url.includes('?') ? url + '&l=' + encodeURIComponent(cityParam) : url + '?l=' + encodeURIComponent(cityParam);
+            planText += `- ${url}\n`;
+          });
+        }
+        if(dataJobs.jobLinksInternational && dataJobs.jobLinksInternational.length){
+          planText += `\n🔗 VAGAS INTERNACIONAIS:\n`;
+          dataJobs.jobLinksInternational.slice(0,2).forEach(l=>{ planText += `- ${l}\n`; });
+          if(dataJobs.salaryUSD){
+            planText += `\n💵 FAIXA SALARIAL (USD, anual): Junior: ${dataJobs.salaryUSD.junior} | Pleno: ${dataJobs.salaryUSD.pleno} | Senior: ${dataJobs.salaryUSD.senior}\n`;
+          }
+        }
+      }
 
     // persist plan in localStorage
     planObj.career=career; planObj.hours=hours;

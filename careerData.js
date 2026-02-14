@@ -104,9 +104,10 @@ window.careerData = {
       "https://www.linkedin.com/jobs/search/?keywords=game%20developer",
       "https://www.indeed.com/q-Game-Developer-jobs.html"
     ],
+    // use {city} placeholder which will be replaced at runtime
     jobLinksBrazil: [
-      "https://www.vagas.com.br/vagas?q=game+developer",
-      "https://www.linkedin.com/jobs/search/?keywords=desenvolvedor%20de%20games&location=Brasil"
+      "https://www.vagas.com.br/vagas?q=game+developer&l={city}",
+      "https://www.linkedin.com/jobs/search/?keywords=desenvolvedor%20de%20games&location={city}%2C%20Brasil"
     ],
     jobLinksInternational: [
       "https://www.indeed.com/q-Game-Developer-jobs.html",
