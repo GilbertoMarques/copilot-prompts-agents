@@ -21,6 +21,28 @@
 
     <script src="../chat.js"></script>
     <script src="../config.js" onerror="console.warn('config.js não encontrado; crie com sua chave.');"></script>
+    <script>
+      // exibir dados recebidos da fase anterior (Atlas)
+      (function(){
+        const params = new URLSearchParams(window.location.search);
+        if(params.has('career')){
+          const career = params.get('career');
+          const hours = params.get('hours');
+          const exp = params.get('experience');
+          const obj = params.get('objective');
+          const pref = params.get('preference');
+          const inter = params.get('interests');
+          const summary = `Recebi:
+- carreira: ${career}
+- horas/sem: ${hours}
+- experiência: ${exp}
+- objetivo: ${obj}
+- preferência: ${pref}
+- interesses: ${inter}`;
+          alert(summary);
+        }
+      })();
+    </script>
   </div>
 </body>
 </html>

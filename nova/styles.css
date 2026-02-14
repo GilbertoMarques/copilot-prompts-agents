@@ -83,6 +83,56 @@ a:focus, button:focus, iframe:focus{ outline: 3px solid rgba(124,92,255,0.16); o
   h1{ font-weight:600; }
 }
 
+/* mensagens do chat */
+.bot-message, .user-message {
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 6px 0;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+.bot-message {
+  background: rgba(124,92,255,0.08);
+  align-self: flex-start;
+}
+.user-message {
+  background: rgba(124,92,255,0.3);
+  align-self: flex-end;
+}
+
+.chat-messages{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  max-height: 400px;
+  overflow-y:auto;
+  margin-bottom:12px;
+}
+
+.chat-form{
+  display:flex;
+  gap:6px;
+}
+
+.chat-form input{
+  flex:1;
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #334155;
+  background: var(--card);
+  color: inherit;
+}
+
+.chat-form button{
+  padding:8px 16px;
+  border:none;
+  border-radius:6px;
+  background: var(--accent);
+  color:#fff;
+  cursor:pointer;
+}
+.chat-form button:hover{ opacity:0.9; }
+
 /* chat UI */
 .chat-messages{
   max-height:480px;
