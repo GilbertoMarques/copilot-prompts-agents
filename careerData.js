@@ -104,6 +104,19 @@ window.careerData = {
       "https://www.linkedin.com/jobs/search/?keywords=game%20developer",
       "https://www.indeed.com/q-Game-Developer-jobs.html"
     ],
+    jobLinksBrazil: [
+      "https://www.vagas.com.br/vagas?q=game+developer",
+      "https://www.linkedin.com/jobs/search/?keywords=desenvolvedor%20de%20games&location=Brasil"
+    ],
+    jobLinksInternational: [
+      "https://www.indeed.com/q-Game-Developer-jobs.html",
+      "https://www.linkedin.com/jobs/search/?keywords=game%20developer&location=United%20States"
+    ],
+    salaryUSD: {
+      junior: "10k-20k USD/ano",
+      pleno: "30k-60k USD/ano",
+      senior: "70k+ USD/ano"
+    },
     dio: {trail: "Desenvolvimento de Games", reason:"Trilha focada em engines e práticas de desenvolvimento para jogos."}
   }
   // add other careers as needed

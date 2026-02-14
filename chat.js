@@ -226,9 +226,9 @@
       else if(hrs>=10) score += 3;
       else if(hrs>0) score += 1;
 
-      // if user mentioned 'jogo' map to developer if applicable
+      // if user mentioned 'jogo' map to developer if applicable (stronger bonus)
       if(kws.includes('jogo') || kws.includes('game')){
-        if(c.name.toLowerCase().includes('desenvolvedor')) score += 3;
+        if(c.name.toLowerCase().includes('desenvolvedor')) score += 5;
       }
 
       // small boost for market demand
@@ -259,9 +259,25 @@
       block += `*VANTAGENS:*\n- ${c.advantages.join('\n- ')}\n`;
       block += `*DESAFIOS:*\n- ${c.challenges.join('\n- ')}\n`;
       block += `*MERCADO:* ${c.market} (varia por região/experiência)`;
-      if(data.jobLinks && data.jobLinks.length){
-        block += `\n\n🔗 *VAGAS EM ALTA:*\n`;
-        data.jobLinks.slice(0,2).forEach(l=>{ block += `- ${l}\n`; });
+      // show job links by region when available
+      if((data.jobLinksBrazil && data.jobLinksBrazil.length) || (data.jobLinksInternational && data.jobLinksInternational.length) || (data.jobLinks && data.jobLinks.length)){
+        if(data.jobLinksBrazil && data.jobLinksBrazil.length){
+          block += `\n\n🔗 *VAGAS (Brasil):*\n`;
+          data.jobLinksBrazil.slice(0,3).forEach(l=>{ block += `- ${l}\n`; });
+        }
+        if(data.jobLinksInternational && data.jobLinksInternational.length){
+          block += `\n🔗 *VAGAS (Internacional):*\n`;
+          data.jobLinksInternational.slice(0,2).forEach(l=>{ block += `- ${l}\n`; });
+          if(data.salaryUSD){
+            block += `\n💵 *FAIXA SALARIAL (USD, anual):*\n` +
+                     `Junior: ${data.salaryUSD.junior} | Pleno: ${data.salaryUSD.pleno} | Senior: ${data.salaryUSD.senior}\n`;
+          }
+        }
+        // fallback to generic jobLinks for older entries
+        if(data.jobLinks && data.jobLinks.length){
+          block += `\n🔗 *VAGAS (geral):*\n`;
+          data.jobLinks.slice(0,2).forEach(l=>{ block += `- ${l}\n`; });
+        }
       } else {
         block += `\n\n🔗 *VAGAS EM ALTA:*\nNenhum link disponível no momento.\n`;
       }
