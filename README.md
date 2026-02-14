@@ -22,12 +22,12 @@ Responsável por conduzir uma **entrevista estruturada de 7 perguntas** para ent
 4. Aguarda a escolha do usuário  
 5. Transfere todas as informações para o Agent 2  
 
-👉 [Converse com o Agent 1](URL_DO_AGENT_1)
+👉 [Converse com o Altas](URL_DO_AGENT_1)
 
 ---
 
 ### 🤖 Nova - Especialista em Carreira
-Responsável por criar um **plano de estudos personalizado** com base na carreira escolhida e nas informações coletadas pelo Agent 1.
+Responsável por criar um **plano de estudos personalizado** com base na carreira escolhida e nas informações coletadas pelo Atlas.
 
 **Funções principais:**
 - Estruturar um roteiro de aprendizado passo a passo  
@@ -36,22 +36,22 @@ Responsável por criar um **plano de estudos personalizado** com base na carreir
 - Conectar interesses e experiências prévias com a carreira escolhida  
 - Ajudar na evolução profissional (primeiro emprego, transição ou crescimento)  
 
-**Fluxo de trabalho do Agent 2:**
-1. Recebe as informações transferidas pelo Agent 1  
+**Fluxo de trabalho do Nova:**
+1. Recebe as informações transferidas pelo Atlas 
 2. Analisa carreira escolhida, tempo disponível e nível de experiência  
 3. Monta um plano de estudos personalizado com etapas claras  
 4. Sugere recursos, tecnologias e práticas recomendadas  
 5. Acompanha a evolução e ajusta o plano conforme necessário  
 
-👉 [Converse com o Agent 2](URL_DO_AGENT_2)
+👉 [Converse com o Nova](URL_DO_AGENT_2)
 
 ---
 
 ### 🔄 Fluxo Geral
-1. **Agent 1** entrevista e sugere carreiras  
+1. **Atlas** entrevista e sugere carreiras  
 2. Usuário escolhe uma carreira  
-3. **Agent 1** transfere informações para o **Agent 2**  
-4. **Agent 2** monta o plano de estudos personalizado
+3. **Altas** transfere informações para o **Nova**  
+4. **Nova** monta o plano de estudos personalizado
 
 ---   
 
