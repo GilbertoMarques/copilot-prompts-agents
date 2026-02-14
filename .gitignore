@@ -1,0 +1,10 @@
+# Root gitignore
+node_modules/
+.env
+.DS_Store
+.vscode/
+*.log
+coverage/
+
+# ignore GitHub Pages artefact if any
+.github/workflows/
