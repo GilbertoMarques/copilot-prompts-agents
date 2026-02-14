@@ -142,7 +142,12 @@
       interests: answers[5]
     });
     // compute target path relative to current location to robustly reach nova folder
-    const base = window.location.pathname.replace(/\/[^\/]*$/, '/');
+    // remove last two segments from pathname (e.g. /foo/atlas/index.html -> /foo/)
+    const parts = window.location.pathname.split('/').filter(p=>p.length>0);
+    let base = '/';
+    if(parts.length>2){
+      base = '/' + parts.slice(0,-2).join('/') + '/';
+    }
     const target = base + 'nova/index.html?' + params.toString();
     setTimeout(()=>{ window.location.href=target; }, 2000);
   }
