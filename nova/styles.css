@@ -1,0 +1,84 @@
+/* Reset simples */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root{
+  --bg: #0f1724; /* dark navy */
+  --card: #0b1220;
+  --muted: #9aa4b2;
+  --accent: #7c5cff; /* purple */
+  --glass: rgba(255,255,255,0.04);
+}
+
+html,body{
+  height:100%;
+}
+body{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #081028 0%, #071225 100%);
+  color: #e6eef8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding: 48px 24px;
+  display:flex;
+  justify-content:center;
+}
+
+.container{
+  width:100%;
+  max-width:980px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 6px 24px rgba(2,6,23,0.6);
+}
+
+h1{
+  font-size:1.6rem;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.description{
+  color:var(--muted);
+  margin-bottom:18px;
+  line-height:1.45;
+}
+
+/* iframe como card responsivo */
+.chat-card{
+  width:100%;
+  background:var(--card);
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+.chat-card iframe{
+  width:100%;
+  height:640px;
+  border:0;
+  display:block;
+  background:transparent;
+}
+
+/* Pequenas melhorias responsivas */
+@media (max-width:640px){
+  body{ padding:24px 12px; }
+  .container{ padding:20px; }
+  h1{ font-size:1.25rem; }
+  .chat-card iframe{ height:520px; }
+}
+
+/* Acessibilidade */
+a:focus, button:focus, iframe:focus{ outline: 3px solid rgba(124,92,255,0.16); outline-offset: 3px; }
+
+/* Utilitários */
+.small{ font-size:0.9rem; color:var(--muted); }
+
+/* Fallback fonts e small polished touch */
+@supports (font-variation-settings: normal){
+  h1{ font-weight:600; }
+}

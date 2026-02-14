@@ -1,0 +1,10 @@
+# Ignore common files
+node_modules/
+.env
+.DS_Store
+.vscode/
+*.log
+coverage/
+
+# GitHub Pages artefact (if created locally)
+.github/workflows/
