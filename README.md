@@ -58,3 +58,21 @@ Responsável por criar um **plano de estudos personalizado** com base na carreir
 **Atlas** → simboliza quem guia e orienta (o entrevistador).
 
 **Nova** → simboliza algo novo, crescimento e evolução (o especialista em carreira).
+
+---
+
+## 🔧 Configuração do Chat
+
+Os agentes usam o **OpenAI Chat API** para fornecer respostas dinâmicas. Como o GitHub Pages é um site estático, você precisa fornecer sua própria chave de API.
+
+1. Crie um arquivo `config.js` na raiz do diretório `agents/` com o conteúdo abaixo (não comite-o):
+   ```js
+   // config.js
+   window.OPENAI_API_KEY = "sk-..."; // sua chave pessoal
+   ```
+2. O `.gitignore` já inclui `config.js` para evitar vazamento de credenciais.
+3. Se não quiser usar a API, os agentes continuarão exibindo um campo de chat mas não responderão.
+4. O plano gratuito do OpenAI costuma oferecer créditos iniciais; consulte [https://platform.openai.com/](https://platform.openai.com/) para cadastro.
+
+> **Aviso de segurança:** armazenar chaves diretamente em arquivos públicos não é recomendado para produção. Este exemplo é apenas para protótipo/desenvolvimento.
+

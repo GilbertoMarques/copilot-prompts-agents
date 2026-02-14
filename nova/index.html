@@ -10,10 +10,17 @@
     <h1>Nova - Especialista em Carreira</h1>
     <p class="description">Este agente cria um plano de estudos personalizado com base na carreira escolhida.</p>
 
-    <!-- Widget de chat integrado -->
-    <div class="chat-card">
-      <iframe src="https://gilbertomarques.github.io/copilot-prompts-agents/nova/" title="Chat Nova"></iframe>
+    <!-- Widget de chat integrado (substituído por interface JS) -->
+    <div class="chat-card" id="chat-card">
+      <div id="chat-messages" class="chat-messages"></div>
+      <form id="chat-form" class="chat-form">
+        <input type="text" id="chat-input" autocomplete="off" placeholder="Digite sua pergunta..." />
+        <button type="submit">Enviar</button>
+      </form>
     </div>
+
+    <script src="../chat.js"></script>
+    <script src="../config.js" onerror="console.warn('config.js não encontrado; crie com sua chave.');"></script>
   </div>
 </body>
 </html>

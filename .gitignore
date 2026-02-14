@@ -8,3 +8,6 @@ coverage/
 
 # ignore GitHub Pages artefact if any
 .github/workflows/
+
+# local configuration containing API keys
+config.js

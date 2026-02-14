@@ -10,10 +10,17 @@
     <h1>Atlas - Entrevistador de Carreira</h1>
     <p class="description">Este agente conduz a entrevista de 7 perguntas para entender seu perfil profissional.</p>
 
-    <!-- Widget de chat integrado -->
-    <div class="chat-card">
-      <iframe src="https://gilbertomarques.github.io/copilot-prompts-agents/atlas/" title="Chat Atlas"></iframe>
+    <!-- Widget de chat integrado (substituído por interface JS) -->
+    <div class="chat-card" id="chat-card">
+      <div id="chat-messages" class="chat-messages"></div>
+      <form id="chat-form" class="chat-form">
+        <input type="text" id="chat-input" autocomplete="off" placeholder="Digite sua pergunta..." />
+        <button type="submit">Enviar</button>
+      </form>
     </div>
+
+    <script src="../chat.js"></script>
+    <script src="../config.js" onerror="console.warn('config.js não encontrado; crie com sua chave.');"></script>
   </div>
 </body>
 </html>
