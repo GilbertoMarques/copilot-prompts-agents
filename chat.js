@@ -110,10 +110,13 @@
       // add salary information if available
       const data = window.careerData?.[c.name] || {};
       if(data.salary){
-        block += `💰 *FAIXA SALARIAL:*\n` +
+        block += `💰 *FAIXA SALARIAL (junior/pleno/senior):*\n` +
                  `Junior: ${data.salary.junior} | ` +
                  `Pleno: ${data.salary.pleno} | ` +
                  `Senior: ${data.salary.senior}\n`;
+      } else {
+        block += `💰 *FAIXA SALARIAL:*\n` +
+                 `Informação não disponível para esta carreira.\n`;
       }
       block += `💡 *POR QUE COMBINA COM VOCÊ:*\n- Afinidade com seus interesses e disponibilidade.\n`;
       block += `⚖️ *O QUE ESPERAR:*\n`;
@@ -123,6 +126,8 @@
       if(data.jobLinks && data.jobLinks.length){
         block += `\n\n🔗 *VAGAS EM ALTA:*\n`;
         data.jobLinks.slice(0,2).forEach(l=>{ block += `- ${l}\n`; });
+      } else {
+        block += `\n\n🔗 *VAGAS EM ALTA:*\nNenhum link disponível no momento.\n`;
       }
       await sendBot(block);
     }

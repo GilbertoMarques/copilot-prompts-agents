@@ -15,14 +15,14 @@ Responsável por conduzir uma **entrevista estruturada de 7 perguntas** para ent
 - Analisar respostas e sugerir **3 carreiras ranqueadas**  
 - Transferir para o Agent 2 após a escolha da carreira  
 
-**Fluxo de trabalho do Agent 1:**
+**Fluxo de trabalho do agente Atlas:**
 1. Inicia a entrevista com 7 perguntas (uma por vez)  
 2. Analisa as respostas e aplica a matriz de decisão  
 3. Sugere 3 carreiras ranqueadas com vantagens e desafios  
 4. Aguarda a escolha do usuário  
-5. Transfere todas as informações para o Agent 2  
+5. Transfere todas as informações para o agente Nova  
 
-👉 [Converse com o Altas](https://gilbertomarques.github.io/copilot-prompts-agents/atlas/)
+👉 [Converse com o Atlas](https://gilbertomarques.github.io/copilot-prompts-agents/atlas/)
 
 ---
 
@@ -48,10 +48,12 @@ Responsável por criar um **plano de estudos personalizado** com base na carreir
 ---
 
 ### 🔄 Fluxo Geral
-1. **Atlas** entrevista e sugere carreiras  
+1. O agente **Atlas** entrevista e sugere carreiras  
 2. Usuário escolhe uma carreira  
-3. **Altas** transfere informações para o **Nova**  
-4. **Nova** monta o plano de estudos personalizado
+3. O agente **Atlas** transfere informações para o agente **Nova**  
+4. O agente **Nova** monta o plano de estudos personalizado
+
+> **Nota:** os dados exibidos por Atlas (faixa salarial, hierarquias — junior/pleno/senior — e links de vagas) dependem do conteúdo de `careerData.js`. Se uma carreira não estiver listada ali, essas seções serão omitidas. Você pode editar o arquivo para adicionar mais profissões ou preencher os campos de salário/vagas. Consulte o modelo existente para copiar o formato.
 
 ---   
 
@@ -75,4 +77,24 @@ Os agentes usam o **OpenAI Chat API** para fornecer respostas dinâmicas. Como o
 4. O plano gratuito do OpenAI costuma oferecer créditos iniciais; consulte [https://platform.openai.com/](https://platform.openai.com/) para cadastro.
 
 > **Aviso de segurança:** armazenar chaves diretamente em arquivos públicos não é recomendado para produção. Este exemplo é apenas para protótipo/desenvolvimento.
+
+## 📦 Publicando no GitHub Pages
+Para que as páginas dos agentes (e todo o sistema) fiquem visíveis na web é preciso habilitar o GitHub Pages no repositório:
+
+1. Acesse o repositório no GitHub.  
+2. Vá em **Settings > Pages**.  
+3. Em **Source**, selecione a branch `main` (ou outra que contenha os arquivos) e a pasta `/ (root)`.  
+4. Salve as alterações. Aguarde alguns minutos enquanto o serviço constrói o site.  
+5. O endereço será algo como `https://<seu-usuario>.github.io/<nome-do-repo>/agents/atlas/` e `.../agents/nova/`.
+
+Se você vir uma mensagem como “Não existe um site do GitHub Pages aqui”, verifique:
+- se a branch escolhida contém o diretório `agents/` e o `index.html`;  
+- se não há arquivos bloqueados ou commits pendentes;  
+- se alguém desativou o Pages para o repositório.  
+
+Após a configuração, abra a URL disponibilizada e teste as interações — o Atlas deverá apresentar perguntas e, após escolher carreira, redirecionar ao Nova.
+
+> ⚠️ Ainda não configurado? Execute git push em `main` e repita os passos acima.
+
+---
 
